@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 
-class TransactionTypes(models.Model):
+class TransactionType(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -11,7 +11,7 @@ class TransactionTypes(models.Model):
 
 class Transaction(models.Model):
     transaction_type = models.ForeignKey(
-        TransactionTypes, on_delete=models.CASCADE)
+        TransactionType, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()

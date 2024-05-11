@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 
-class AccountTypes(models.Model):
+class AccountType(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -10,7 +10,7 @@ class AccountTypes(models.Model):
 
 
 class Account(models.Model):
-    account_type = models.ForeignKey(AccountTypes, on_delete=models.CASCADE)
+    account_type = models.ForeignKey(AccountType, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     balance = models.DecimalField(max_digits=10, decimal_places=2)

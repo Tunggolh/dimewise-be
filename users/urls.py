@@ -1,8 +1,6 @@
 """"
 URLs for users
 """
-
-
 from django.urls import path
 
 from users import views

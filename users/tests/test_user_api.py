@@ -12,6 +12,7 @@ from rest_framework import status
 
 CREATE_USER_URL = reverse('users:create')
 TOKEN_URL = reverse('users:token_obtain_pair')
+TOKEN_REFRESH_URL = reverse('users:token_refresh')
 
 
 def create_user(**params):
@@ -119,3 +120,39 @@ class PublicUserApiTests(TestCase):
 
         self.assertNotIn('access', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_refresh_token(self):
+        """Test that a token can be refreshed"""
+        create_user(email='test@example.com', password='password123')
+
+        payload = {
+            'email': 'test@example.com',
+            'password': 'password123'
+        }
+
+        res = self.client.post(TOKEN_URL, payload)
+
+        self.assertIn('refresh', res.data)
+        self.assertIn('access', res.data)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+        refresh = res.data['refresh']
+        refresh_payload = {
+            'refresh': refresh
+        }
+
+        res = self.client.post(TOKEN_REFRESH_URL, refresh_payload)
+
+        self.assertIn('access', res.data)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_refresh_token_invalid(self):
+        """Test that an invalid refresh token is rejected"""
+        payload = {
+            'refresh': 'invalid'
+        }
+
+        res = self.client.post(TOKEN_REFRESH_URL, payload)
+
+        self.assertNotIn('access', res.data)
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)

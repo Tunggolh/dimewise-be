@@ -6,7 +6,6 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0001_add_transactiontypecategory_table'),
         ('transactions', '0001_add_transactions_table'),
     ]
 

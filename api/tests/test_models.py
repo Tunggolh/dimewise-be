@@ -5,6 +5,8 @@ Tests for models
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
+from categories.models import Category
+
 
 class ModelTests(TestCase):
     def test_create_user_with_email_successful(self):
@@ -18,3 +20,11 @@ class ModelTests(TestCase):
 
         self.assertEqual(user.email, email)
         self.assertTrue(user.check_password(password))
+
+    def test_create_category_successful(self):
+        """Test creating a new category is successful"""
+        category = Category.objects.create(
+            name='Test Category'
+        )
+
+        self.assertEqual(category.name, 'Test Category')

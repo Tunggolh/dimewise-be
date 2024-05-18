@@ -1,5 +1,10 @@
-from django.urls import path
+"""
+URL Configuration for all API endpoints.
+"""
+
+from django.urls import path, include
 
 urlpatterns = [
-    # Include the api urls
+    path('api/user/', include('users.urls')),
+    path('api/categories/', include('categories.urls')),
 ]

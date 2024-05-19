@@ -5,7 +5,11 @@ Django admin configuration
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from users import models
+from users.models import User
+from categories.models import Category
+from transactions.models import TransactionType, Transaction
+from api.models import UserTransactionCategory
+from accounts.models import Account, AccountType
 
 
 class UserAdmin(BaseUserAdmin):
@@ -29,4 +33,10 @@ class UserAdmin(BaseUserAdmin):
     readonly_fields = ('last_login',)
 
 
-admin.site.register(models.User, UserAdmin)
+admin.site.register(User, UserAdmin)
+admin.site.register(Category)
+admin.site.register(TransactionType)
+admin.site.register(Transaction)
+admin.site.register(UserTransactionCategory)
+admin.site.register(Account)
+admin.site.register(AccountType)

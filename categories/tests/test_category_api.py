@@ -9,9 +9,15 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from categories.models import Category
-from categories.serializers import CategorySerializer
+from categories.serializers import CategorySerializer, CategoryDetailSerializer
 
 CATEGORIES_URL = reverse('categories:category-list')
+CATEGORY_DETAIL_URL = 'categories:category-detail'
+
+
+def detail_category(category_id):
+    """Return category detail URL"""
+    return reverse(CATEGORY_DETAIL_URL, args=[category_id])
 
 
 def create_category(**params):
@@ -59,3 +65,32 @@ class PrivateCategoriesApiTests(TestCase):
         serializer = CategorySerializer(categories, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
+
+    def test_get_category_detail(self):
+        """Test getting a category detail"""
+        category = create_category()
+
+        res = self.client.get(detail_category(category.id))
+
+        serializer = CategoryDetailSerializer(category)
+        self.assertEqual(res.data, serializer.data)
+
+    def test_create_category(self):
+        """Test creating a category"""
+        payload = {'name': 'Test Category'}
+        self.client.post(CATEGORIES_URL, payload)
+
+        exists = Category.objects.filter(
+            name=payload['name']
+        ).exists()
+        self.assertTrue(exists)
+
+    def test_partial_update_category(self):
+        """Test updating a category with patch"""
+        category = create_category()
+        payload = {'name': 'New Category'}
+
+        self.client.patch(detail_category(category.id), payload)
+
+        category.refresh_from_db()
+        self.assertEqual(category.name, payload['name'])

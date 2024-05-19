@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 
 from categories.models import Category
 from transactions.models import TransactionType, Transaction
+from accounts.models import Account, AccountType
 from api.models import UserTransactionCategory
 
 
@@ -21,6 +22,10 @@ def create_transaction_type(name='Income'):
 
 def create_category(name='Salary'):
     return Category.objects.create(name=name)
+
+
+def create_account_type(name='Cash'):
+    return AccountType.objects.create(name=name)
 
 
 class ModelTests(TestCase):
@@ -43,6 +48,36 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(category.name, 'Test Category')
+
+    def test_create_transaction_type_successful(self):
+        """Test creating a new transaction type is successful"""
+        transaction_type = TransactionType.objects.create(
+            name='Income'
+        )
+
+        self.assertEqual(transaction_type.name, 'Income')
+
+    def test_create_account_type_successful(self):
+        """Test creating a new account type is successful"""
+        account_type = AccountType.objects.create(
+            name='Cash'
+        )
+
+        self.assertEqual(account_type.name, 'Cash')
+
+    def test_create_account_successful(self):
+        """Test creating a new account is successful"""
+        account_type = create_account_type()
+        user = create_user()
+
+        account = Account.objects.create(
+            name='Cash',
+            account_type=account_type,
+            user=user,
+            balance=0
+        )
+
+        self.assertEqual(account.name, 'Cash')
 
     def test_create_user_transaction_category_successful(self):
         """Test creating a new user transaction category is successful"""

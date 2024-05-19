@@ -10,7 +10,7 @@ from rest_framework.test import APIClient
 from rest_framework import status
 
 from accounts.models import Account, AccountType
-from accounts.serializers import AccountSerializer, AccountDetailSerializer, AccountTypeSerializer, AccountTypeDetailSerializer
+from accounts.serializers import AccountSerializer, AccountDetailSerializer, AccountTypeSerializer
 
 ACCOUNTS_URL = reverse('accounts:account-list')
 ACCOUNT_DETAIL_URL = reverse('accounts:account-detail')
@@ -88,7 +88,7 @@ class PrivateAccountTypeApiTests(TestCase):
 
         res = self.client.get(detail_account_type(account_type.id))
 
-        serializer = AccountTypeDetailSerializer(account_type)
+        serializer = AccountTypeSerializer(account_type)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)

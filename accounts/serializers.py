@@ -7,14 +7,16 @@ class AccountTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccountType
         fields = '__all__'
+        read_only_fields = ['id']
 
 
-class AccountListSerializer(serializers.ModelSerializer):
+class AccountSerializer(serializers.ModelSerializer):
     account_type = AccountTypeSerializer()
 
     class Meta:
         model = Account
         fields = ['id', 'name', 'account_type', 'balance']
+        read_only_fields = ['id']
 
 
 class AccountDetailSerializer(serializers.ModelSerializer):
@@ -23,3 +25,4 @@ class AccountDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = '__all__'
+        read_only_fields = ['id']

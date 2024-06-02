@@ -9,13 +9,13 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
-from accounts.models import Account, AccountType
-from accounts.serializers import AccountSerializer, AccountDetailSerializer, AccountTypeSerializer
+from transactions.models import Account, AccountType
+from transactions.serializers import AccountSerializer, AccountDetailSerializer, AccountTypeSerializer
 
-ACCOUNTS_URL = reverse('accounts:account-list')
-ACCOUNT_DETAIL_URL = reverse('accounts:account-detail')
-ACCOUNT_TYPES_URL = reverse('accounts:account-type-list')
-ACCOUNT_TYPE_DETAIL_URL = reverse('accounts:account-type-detail')
+ACCOUNTS_URL = reverse('account-list')
+ACCOUNT_DETAIL_URL = reverse('account-detail')
+ACCOUNT_TYPES_URL = reverse('account-type-list')
+ACCOUNT_TYPE_DETAIL_URL = reverse('account-type-detail')
 
 
 def create_user(email='test@example.com', password='testpass123'):

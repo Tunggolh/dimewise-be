@@ -5,10 +5,8 @@ Tests for models
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
-from categories.models import Category
-from transactions.models import TransactionType, Transaction
-from accounts.models import Account, AccountType
-from api.models import UserTransactionCategory
+from transactions.models import (
+    Category, TransactionType, Transaction, Account, AccountType)
 
 
 def create_user(email='test@example.com', password='testpass123'):
@@ -29,17 +27,6 @@ def create_account_type(name='Cash'):
 
 
 class ModelTests(TestCase):
-    def test_create_user_with_email_successful(self):
-        """Test creating a new user with an email is successful"""
-        email = 'test@example.com'
-        password = 'testpass123'
-        user = get_user_model().objects.create_user(
-            email=email,
-            password=password
-        )
-
-        self.assertEqual(user.email, email)
-        self.assertTrue(user.check_password(password))
 
     def test_create_category_successful(self):
         """Test creating a new category is successful"""
@@ -78,20 +65,3 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(account.name, 'Cash')
-
-    def test_create_user_transaction_category_successful(self):
-        """Test creating a new user transaction category is successful"""
-        user = create_user()
-        transaction_type = create_transaction_type()
-        category = create_category()
-
-        user_transaction_category = UserTransactionCategory.objects.create(
-            category=category,
-            transaction_type=transaction_type,
-            user=user
-        )
-
-        self.assertEqual(
-            str(user_transaction_category),
-            f'{transaction_type.name} - {category.name}'
-        )

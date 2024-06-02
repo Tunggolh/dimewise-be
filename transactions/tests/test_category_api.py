@@ -8,11 +8,11 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from categories.models import Category
-from categories.serializers import CategorySerializer, CategoryDetailSerializer
+from transactions.models import Category
+from transactions.serializers import CategorySerializer, CategoryDetailSerializer
 
-CATEGORIES_URL = reverse('categories:category-list')
-CATEGORY_DETAIL_URL = 'categories:category-detail'
+CATEGORIES_URL = reverse('category-list')
+CATEGORY_DETAIL_URL = 'category-detail'
 
 
 def detail_category(category_id):
